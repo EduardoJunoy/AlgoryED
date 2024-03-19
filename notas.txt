@@ -1,0 +1,3260 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "\n",
+    "**Notas complementarias a las transparencias**\n",
+    "\n",
+    "* 14/09/2022 \n",
+    "    * Se ha introducido en las listas el ejemplo l=3*[1]\n",
+    "    * Se ha completado el ejemplo de *dictionary comprenhesion* \n",
+    "    * Se ha completado el ejemplo del uso de args kwargs en las funciones|"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Tipos de datos\n",
+    "\n",
+    "\n",
+    "* Dos tipos generales de datos:\n",
+    "    * Escalares:int,float,complex,bool,str\n",
+    "    * Contenedores (tipos estructurados):contienen un número arbitrario de de escalares o de otros contenedores\n",
+    "* En Python todo son objetos, por tanto también lo son todos los tipos de datos "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 124,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "b = 3 # entero\n",
+    "a = [1, 2, 3]  # lista en la que sus elementos son enteros\n",
+    "c = [ [1,2], \"hola\" ]  #lista en la que su primer elemento es una lista y el segundo una cadena de caracteres\n",
+    "d = (1, 2, 3) # tupla de enteros\n",
+    "e = { 'name' : \"Fulano\", 'last_name' : 'Perez', 'edad' : 18} # Diccionario"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "* A diferencia de C las variables de Python no están fuertemente tipadas. Los tipos se asignan de forma implícita y se comprueban en tiempo de ejecución\n",
+    "\n",
+    "* Se puede comprobar de forma explicita el tipo, clase, de un objeto con las funciones `type()` y `ìsinstance()` "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 125,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "list"
+      ]
+     },
+     "execution_count": 125,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "type(a)   # Comprobamos el tipo del objeto a"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 126,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "True"
+      ]
+     },
+     "execution_count": 126,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "isinstance (a, list) # Preguntamos si el objeto a es una instancia de la clase list"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 127,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "True"
+      ]
+     },
+     "execution_count": 127,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "type(a) is list # utilizamos el operador is"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "**Importantísimo**. \n",
+    "\n",
+    "   * El concepto de variable en Python es radicalmente diferente al de C. En Python una variable debe entenderse como un enlace a un objeto. \n",
+    "   * Todo objeto tiene un identificador. El identificador es único para cada objeto.  Con la función `ìd()` podemos acceder al identificador del objeto \n",
+    "   * En Python hay objetos que son mutables y otros que son no-mutables o inmutables. Los objetos mutables se pueden modificar, los no-mutables no. Por ejemplo, los enteros son objetos no mutables mientras que las listas son objetos mutables.\n",
+    "\n",
+    "   En el siguiente código de [pythontutor](https://pythontutor.com/) es importantísimo que entiendas porque hay variables que tiene id iguales o por qué cuando \"aparentemente se modifican\" las variables, algunas veces cambian su id pero en otras no. Para ello debes entender (i) la diferencia entre el objeto en sí y el enlace al objeto y (ii) la diferencia entre modificar un objeto y enlazar un nuevo objeto. **Si tienes dificultades pregunta pero no podrás programar en Python sino lo entiendes.**  \n",
+    "[codigo](https://pythontutor.com/visualize.html#code=int_a%20%3D%203%0Aint_b%20%3D%20int_a%0A%0Aprint%28int_a,%20int_b%29%0Aprint%28id%28int_a%29,%20id%28int_b%29%29%0A%0A%23%20Modify%20the%20int%0Aint_a%20%2B%3D%201%0Aprint%28int_a,%20int_b%29%0Aprint%28id%28int_a%29,%20id%28int_b%29%29%0A%0A%0Al_a%20%3D%20%5B1,%202,%203%5D%20%0Al_b%20%3D%20l_a%0Al_c%20%3D%20%5B1,%202,%203%5D%0A%0Aprint%20%28l_a,%20l_b,%20l_c%29%0Aprint%28id%28l_a%29,%20id%28l_b%29,%20id%28l_c%29%29%0A%0A%23%20modify%20the%20list%0Al_a%5B0%5D%20%3D%20%5B4,5,6%5D%0Al_a%5B1%5D%20%3D%20%7B'name'%3A'fulano',%20'edad'%3A3%7D%0Aprint%20%28l_a,%20l_b,%20l_c%29%0Aprint%28id%28l_a%29,%20id%28l_b%29,%20id%28l_c%29%29%0A%0As_a%20%3D%20%22Hello%20world%22%20%20%23objeto%20inmutable%0As_b%20%3D%20s_a%0As_c%20%3D%20%22Hello%20world%22%0Aprint%28id%28s_a%29,%20id%28s_b%29,%20id%28s_c%29%20%29%0A%0A%0Aprint%28%20id%28l_a%5B1%5D%5B'edad'%5D%29%20%29&cumulative=false&heapPrimitives=nevernest&mode=edit&origin=opt-frontend.js&py=3&rawInputLstJSON=%5B%5D&textReferences=false)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "* En Python es fácil intercambiar valores de variables. ¿Entiendes por qué? "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 128,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "3 [1, 2, 3]\n",
+      "[1, 2, 3] 3\n"
+     ]
+    }
+   ],
+   "source": [
+    "a = 3\n",
+    "b = [1, 2,3]\n",
+    "print (a, b)\n",
+    "\n",
+    "a,b = b, a\n",
+    "print(a, b)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Tipos estructurados\n",
+    "\n",
+    "Python tiene cinco tipos estructurados: cadenas (`strings`), tuplas (`tuples`), listas (`lists`), diccionarios (`dicts`) y conjuntos (`sets`)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## String (cadenas)\n",
+    "\n",
+    "* Son secuencias ordenadas de caracteres delimitadas por comillas simples, comillas dobles o triples\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "esto es una cadena con el caracter 3\n",
+      "esto es otra cadena \n",
+      "en dos lineas\n"
+     ]
+    }
+   ],
+   "source": [
+    "a = 'esto es una cadena con el caracter 3'\n",
+    "b = \"\"\"esto es otra cadena \n",
+    "en dos lineas\"\"\"\n",
+    "c = \"ESTO ES OTRA CADENA\"\n",
+    "print(a)\n",
+    "print(b)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "* Las cadenas de caracteres son **objetos ordenables**. Por tanto sus elementos (caracteres) son accesibles mediante un índice. "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 130,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "e\n",
+      "3\n"
+     ]
+    }
+   ],
+   "source": [
+    "print( a[0] ) # accede al primer caracter\n",
+    "print( a[-1] ) # accede al ultimo caracter"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "* Las cadenas son objetos **inmutables**. Una vez creado un objeto inmutable no se puede modificar. El siguiente código lanza una excepción de la clase `TypeError` cuando se intenta modificar la cadena de caracteres"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 131,
+   "metadata": {},
+   "outputs": [
+    {
+     "ename": "TypeError",
+     "evalue": "'str' object does not support item assignment",
+     "output_type": "error",
+     "traceback": [
+      "\u001b[0;31m---------------------------------------------------------------------------\u001b[0m",
+      "\u001b[0;31mTypeError\u001b[0m                                 Traceback (most recent call last)",
+      "\u001b[0;32m<ipython-input-131-c55e479e7831>\u001b[0m in \u001b[0;36m<module>\u001b[0;34m\u001b[0m\n\u001b[0;32m----> 1\u001b[0;31m \u001b[0ma\u001b[0m\u001b[0;34m[\u001b[0m\u001b[0;36m0\u001b[0m\u001b[0;34m]\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0;36m3\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m",
+      "\u001b[0;31mTypeError\u001b[0m: 'str' object does not support item assignment"
+     ]
+    }
+   ],
+   "source": [
+    "a[0] = 3"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "* Las cadenas son objetos **iterables**, i.e., sus elementos se pueden iterar en un bucle"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 132,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "H\n",
+      "e\n",
+      "l\n",
+      "l\n",
+      "o\n",
+      " \n",
+      "W\n",
+      "o\n",
+      "r\n",
+      "l\n",
+      "d\n"
+     ]
+    }
+   ],
+   "source": [
+    "a = \"Hello World\"\n",
+    "\n",
+    "# Iterando sobre la cadena\n",
+    "for x in a:\n",
+    "    print(x)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Operadores"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "|Operator |\tOperation\t| Description |\n",
+    "|-------- | ------------ | ----------- |\n",
+    "|Assignament|\ts1 = s2 |\tLink s2 to the object linked by s1. |\n",
+    "|Concatenation|\ts1 + s2 |\tCreates a new string concatenating two strings, s1 and s2. |\n",
+    "|Repetition |\ts * n\t| Makes n copies of string, s.|\n",
+    "|Indexing\t| s [ i ] |\tIndexing a string, returning element at index i. |\n",
+    "|Slicing |\ts[ i : j : stride] \t| Slicing a string from i to j with an optional stride.|\n",
+    "|Membership |\tx in s |\tReturns True if the element, x is in the string, s. Otherwise False.|\n",
+    "||x not in s | \tReturns True if the element, x is not in the string, x. Otherwise False.|\n",
+    "|Comparison |\ts1 == s2 | \tReturns True if string, s1 is the same as string, s2. Otherwise False.|\n",
+    " || s1 != s2 | \tReturns True if string, s1 is not the same as string, s2. Otherwise False.|"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "* Algunos ejemplos de operadores que admiten las cadenas de caracteres"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 9,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "esto aa\n"
+     ]
+    }
+   ],
+   "source": [
+    "str1 = \"esto \"\n",
+    "str2 = \"aa\" \n",
+    "\n",
+    "strc = str1 + str2 # concatenación\n",
+    "print (strc)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 10,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "a\n",
+      "a\n"
+     ]
+    }
+   ],
+   "source": [
+    "a,b = str2  #assignment with unpacking is allowed when the object is iterable\n",
+    "print(a)\n",
+    "print(b)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 11,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "True\n",
+      "esto esto esto \n",
+      "True\n"
+     ]
+    }
+   ],
+   "source": [
+    "print ( str1 > str2)\n",
+    "print (str1 * 3) # repetition \n",
+    "print ('es' in str1) # membership"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "* Se pueden acceder a *trozos* de una cadena"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 12,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Hell\n",
+      "ell\n",
+      "HloWrd\n",
+      "dlroW olleH\n",
+      "rld\n"
+     ]
+    }
+   ],
+   "source": [
+    "a = \"Hello World\"\n",
+    "\n",
+    "print( a[:4]) # accede a los cuatro primeros caracteres\n",
+    "print( a[1:4])\n",
+    "print( a[::2] ) # accede a los caracteres que ocupan las posiciones impares\n",
+    "print( a[::-1]) # reversing string\n",
+    "print( a[-3:])  # accede a los ultimos 3 elementos "
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Algunos métodos para manejar cadenas"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "* Rara acceder a los métodos de cualquier objeto '`a` se puede utilizar el tabulador o la función `dir()` o `a. + tab` "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 139,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "['__add__',\n",
+       " '__class__',\n",
+       " '__contains__',\n",
+       " '__delattr__',\n",
+       " '__dir__',\n",
+       " '__doc__',\n",
+       " '__eq__',\n",
+       " '__format__',\n",
+       " '__ge__',\n",
+       " '__getattribute__',\n",
+       " '__getitem__',\n",
+       " '__getnewargs__',\n",
+       " '__gt__',\n",
+       " '__hash__',\n",
+       " '__init__',\n",
+       " '__init_subclass__',\n",
+       " '__iter__',\n",
+       " '__le__',\n",
+       " '__len__',\n",
+       " '__lt__',\n",
+       " '__mod__',\n",
+       " '__mul__',\n",
+       " '__ne__',\n",
+       " '__new__',\n",
+       " '__reduce__',\n",
+       " '__reduce_ex__',\n",
+       " '__repr__',\n",
+       " '__rmod__',\n",
+       " '__rmul__',\n",
+       " '__setattr__',\n",
+       " '__sizeof__',\n",
+       " '__str__',\n",
+       " '__subclasshook__',\n",
+       " 'capitalize',\n",
+       " 'casefold',\n",
+       " 'center',\n",
+       " 'count',\n",
+       " 'encode',\n",
+       " 'endswith',\n",
+       " 'expandtabs',\n",
+       " 'find',\n",
+       " 'format',\n",
+       " 'format_map',\n",
+       " 'index',\n",
+       " 'isalnum',\n",
+       " 'isalpha',\n",
+       " 'isascii',\n",
+       " 'isdecimal',\n",
+       " 'isdigit',\n",
+       " 'isidentifier',\n",
+       " 'islower',\n",
+       " 'isnumeric',\n",
+       " 'isprintable',\n",
+       " 'isspace',\n",
+       " 'istitle',\n",
+       " 'isupper',\n",
+       " 'join',\n",
+       " 'ljust',\n",
+       " 'lower',\n",
+       " 'lstrip',\n",
+       " 'maketrans',\n",
+       " 'partition',\n",
+       " 'replace',\n",
+       " 'rfind',\n",
+       " 'rindex',\n",
+       " 'rjust',\n",
+       " 'rpartition',\n",
+       " 'rsplit',\n",
+       " 'rstrip',\n",
+       " 'split',\n",
+       " 'splitlines',\n",
+       " 'startswith',\n",
+       " 'strip',\n",
+       " 'swapcase',\n",
+       " 'title',\n",
+       " 'translate',\n",
+       " 'upper',\n",
+       " 'zfill']"
+      ]
+     },
+     "execution_count": 139,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "a = \"cadena con un 3\"\n",
+    "dir(a)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "* Algunos ejemplos de métodos de cadenas de caracteres"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 140,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "'CADENA CON UN 3'"
+      ]
+     },
+     "execution_count": 140,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "a.upper() # Devuelve una cadena con la versión en mayúsculas del objeto a."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 141,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "'CADENA CON UN 3'"
+      ]
+     },
+     "execution_count": 141,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "# También es válido\n",
+    "\"cadena con un 3\".upper()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 142,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "False\n"
+     ]
+    }
+   ],
+   "source": [
+    "print( a.isdigit() ) #Comprueba si todos los caracteres del objeto a son dígitos"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 13,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "False"
+      ]
+     },
+     "execution_count": 13,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "a[-1].isdigit()   # Comprueba si el último elemento de la cadena a es un dígito"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 144,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "True"
+      ]
+     },
+     "execution_count": 144,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "a[:4].isalpha()  # comprueba si los 4 primeros caracteres de la cadena son símlos del alfabeto"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 14,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "-1"
+      ]
+     },
+     "execution_count": 14,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "string = 'con'\n",
+    "a.find (string) # busca la cadena string en a devolviendo el primer índice donde empieza o -1 si no se ha encontrado"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 146,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "cadena con un 3\n"
+     ]
+    },
+    {
+     "data": {
+      "text/plain": [
+       "['c', 'den', ' con un 3']"
+      ]
+     },
+     "execution_count": 146,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "print(a)\n",
+    "separator = 'a'\n",
+    "a.split (separator) # devuelve una lista de subcadenas separadas por el separador indicado"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 15,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "['Hello', 'World']"
+      ]
+     },
+     "execution_count": 15,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "a.split()  # sino se le pasa argumento al método, se asume el blanco como separador"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "* El método `join` concatena las cadenas incluidas en la lista `sequence`. En la concatenación utiliza como separador la cadena `separator`."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 147,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "'est0XXXesXXXunaXXXcadena'"
+      ]
+     },
+     "execution_count": 147,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "separator = 'XXX'\n",
+    "separator.join( ['est0', 'es', 'una', 'cadena'] )"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Algo mas..."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "* Puedes utilizar el constructor `str()`para *convertir* un objeto en un string. El resultado dependerá de la implementación que haga el objeto que deseas convertir del método `__str__` . En el siguiente ejemplo vamos a convertir el entero 127 a un string y después comprobaremos el tipo del *nuevo* objeto."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "<class 'int'>\n",
+      "94049803002592\n",
+      "<class 'str'>\n",
+      "140510128120048\n"
+     ]
+    }
+   ],
+   "source": [
+    "a = 127\n",
+    "print(type(a))\n",
+    "print(id(a))\n",
+    "\n",
+    "\n",
+    "# a enlaza ahora con un nuevo objeto -> la cadena de caracteres 127.  \n",
+    "a = str(a)\n",
+    "print(type(a))\n",
+    "print(id(a))"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Deberíamos haber sido mas rigurosos con nuestro lenguaje. En el código anterior **no** hemos convertido un entero en una cadena, hemos creado un nuevo objeto de la clase cadena de caracteres. En el siguiente ejemplo creamos una cadena a partir de una lista"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 19,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "list"
+      ]
+     },
+     "execution_count": 19,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "l = [1, 2,3]\n",
+    "type(l)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 150,
+   "metadata": {
+    "scrolled": true
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "str"
+      ]
+     },
+     "execution_count": 150,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "a = str(l)\n",
+    "type(a)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "¿Qué hace exactamente la función `str()`? Como hemos dicho, ejecuta el método `__str__` del objeto del cual queremos crear la cadena de caracteres. Por ejemplo la sentencia `a = str(l)` es equivalente a"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 20,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "str"
+      ]
+     },
+     "execution_count": 20,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "# Enlazo b con el resultado de ejecutar el método __str__() de la lista l\n",
+    "b = l.__str__()\n",
+    "type(b)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Listas\n",
+    "\n",
+    "Secuencia mutable, ordenada e iterable de valores (posiblemente de diferentes tipos). Por tanto:\n",
+    "* sus elementos son accesible mediante un índice.\n",
+    "* se pueden obtener *trozos* de una lista\n",
+    "* se puede iterar para obtener sus elementos"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 23,
+   "metadata": {
+    "hide_input": false
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "['Hello world', 1, 2, [3, 4]]\n",
+      "Hello world\n",
+      "[3, 4]\n",
+      "['Hello world', 1, 2]\n"
+     ]
+    }
+   ],
+   "source": [
+    "l = [\"Hello world\", 1, 2, [3,4] ]\n",
+    "print(l)     #imprimo l lista\n",
+    "print (l[0]) # imprimo el primer elemento de la lista\n",
+    "print (l[-1]) # imprimo el ultimo elemento de la lista\n",
+    "print (l[:3]) # imprimo los tres primeros elementos de la lista"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    " * Las listas son objetos iterables (implementan el método `__iter__`) y por tanto pueden iterarse en un bucle"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 153,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Hello world\n",
+      "1\n",
+      "2\n",
+      "[3, 4]\n"
+     ]
+    }
+   ],
+   "source": [
+    "for item in l:\n",
+    "    print (item)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "* Las Listas se pueden concatenar ( + )"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 24,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "['Hello world', 1, 'Bye']"
+      ]
+     },
+     "execution_count": 24,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "l3 = [\"Bye\"] \n",
+    "l = l[:2] +  l3\n",
+    "l"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "* `l =[ ]` crea una lista vacía. Es equivalente a `l = list()`\n",
+    "\n",
+    "* `len(obj)` devuelve el número de elementos en la lista `obj` . La función *len* cuando se invoca sobre un objeto *ejecuta* el método `__len__` de dicho objeto. \n",
+    "* El operador `*` aplicado a una lista concatena la lista tantas veces como se indique en el coeficiente   "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 22,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "6\n"
+     ]
+    },
+    {
+     "data": {
+      "text/plain": [
+       "[1, 2, 1, 2, 1, 2]"
+      ]
+     },
+     "execution_count": 22,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "l = 3*[1,2]     # crea una lista concatenando 3 veces la lista [1,2]\n",
+    "print (len(l))\n",
+    "l"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "* La función `list(a)` crea una lista a partir del objeto a iterable"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 26,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "['c', 'a', 'd', 'e', 'n', 'a']"
+      ]
+     },
+     "execution_count": 26,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "a = \"cadena\"  # cadena\n",
+    "list (a)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 28,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "['nombre', 'edad']"
+      ]
+     },
+     "execution_count": 28,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "d = { 'nombre':'Eduardo', 'edad':27}  # diccionario\n",
+    "list (d)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "* Cuando `list()`no reciba ningún argumento creará una lista vacía "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 34,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "[]"
+      ]
+     },
+     "execution_count": 34,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "list()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "* Las listas se pueden *desempaquetar*"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 29,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Hello World [1, 2, 3]\n"
+     ]
+    }
+   ],
+   "source": [
+    "x, y, z = [\"Hello\", 'World', [1,2,3]]\n",
+    "print(x, y, z)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "* Las listas están implementadas en C como arrays dinámicos\n",
+    "    * Añadir o eliminar elementos al final de la lista es rápido\n",
+    "    * No tanto en otras posiciones\n",
+    "    * Es una estructura de datos eficiente para pilas (pero no para colas)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### list comprenhesion: \n",
+    "\n",
+    "Es una manera concisa, y muy utilizada, de crear listas a partir de un objeto iterable"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 31,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "[0, 2, 4, 6, 8, 10, 12, 14, 16, 18]"
+      ]
+     },
+     "execution_count": 31,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "l = [2*n for n in range(10) ]  # range(n) crea una secuencia iterable con los n elementos: 0,1, ... (n-1)\n",
+    "l"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "* Muchas veces se utiliza **_comprenhesion_** junto con **_unpacking_**. \n",
+    "\n",
+    "Supón que tienes una lista cuyos elementos son tuplas y se desea crear otra lista cuyos elementos sean la suma de los elementos de las tuplas. Una forma de hacerlo sería:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 157,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "[3, 7, 11]\n"
+     ]
+    }
+   ],
+   "source": [
+    "l = [(1,2), (3,4), (5,6)] # lista cuyos elementos son tuplas\n",
+    "\n",
+    "lc = [ x[0] + x[1] for x in l ]\n",
+    "print (lc)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Pero habitualmente verás el siguiente código que utiliza **unpacking**"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 158,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "[3, 7, 11]\n"
+     ]
+    }
+   ],
+   "source": [
+    "l = [(1,2), (3,4), (5,6)] # lista cuyos elementos son tuplas\n",
+    "\n",
+    "# Cada iteración devuelve una tupla de la lista. La tupla se despaqueta\n",
+    "# asignando a x e y los valores de la tupla\n",
+    "lc = [x+y for x, y in l]\n",
+    "print (lc)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Lo que **nunca** deberías hacer:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 159,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "[3, 7, 11]\n"
+     ]
+    }
+   ],
+   "source": [
+    "# Este código no deberáis utilizarlo, aunque produzca los resultados deseados\n",
+    "l = [(1,2), (3,4), (5,6)] # lista cuyos elementos son tuplas\n",
+    "\n",
+    "lc = []\n",
+    "for x in l:\n",
+    "    lc.append (x[0]+x[1])\n",
+    "print(lc)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "* Es muy habitual utilizar *list comprenhesion con condiciones* o *list comprenhesion con condicionales* (no son los mismo debes apreciar las diferencias entre ambas)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 32,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "[0, 4, 8, 12, 16]"
+      ]
+     },
+     "execution_count": 32,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "# list comprension with condition\n",
+    "l = [ 2*n for n in range(10) if n % 2 == 0]\n",
+    "l"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 33,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "['par', 'impar', 'par', 'tres', 'par', 'impar', 'par', 'impar', 'par', 'impar']"
+      ]
+     },
+     "execution_count": 33,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "# list comprenhension with conditionals\n",
+    "\n",
+    "l = [ 'par' if n%2==0 else 'tres' if n==3 else 'impar' for n in range(10) ]\n",
+    "l"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Función zip (e introducción a iteradores)\n",
+    "\n",
+    "La función `zip()` devuelve un `iterador` de tuplas. Un iterador es un objeto que permite recorrer uno a uno sus elementos, para, eventualmente, operar con ellos. Un objetos que sea iterador debe implementar el método `next()`\n",
+    "\n",
+    "* Los parámetros que se le pasen a la función `zip()` deben ser obejetos iterables. \n",
+    "* Sino le pasases ningún parámetro, `zip()` devuelve un iterador vacío\n",
+    "* Si se le pasa un único prámetro, `zip()` devuelve un iterador de tuplas, donde cada tupla tendrña un único elemento.\n",
+    "* If multiple iterables are passed, `zip()` returns an iterator of tuples with each tuple having elements from all the iterables.\n",
+    "\n",
+    "* Suppose, two iterables are passed to `zip()`; one iterable containing three and other containing five elements. Then, the returned iterator will contain three tuples. It's because the iterator stops when the shortest iterable is exhausted.\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 36,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "<zip at 0x7f9b5c02f4b0>"
+      ]
+     },
+     "execution_count": 36,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "l1 = ['C', 'Python', 'JavaScript'] \n",
+    "l2 = [17, 30, 40]\n",
+    "l3 = ['first', 'second', 'third', 'four']\n",
+    "\n",
+    "# Creamos el iterador con la función zip pasándole como argumento tres listas\n",
+    "z = zip(l1, l2, l3) \n",
+    "z"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "* Una vez creado el iterador, la función next nos permite iterar el iterador obteniendo uno a uno sus objetos."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 37,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "('C', 17, 'first')\n",
+      "('Python', 30, 'second')\n",
+      "('JavaScript', 40, 'third')\n"
+     ]
+    }
+   ],
+   "source": [
+    "print( next(z) )\n",
+    "print( next(z) )\n",
+    "print( next(z) )"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "El objeto devueltos en cada iteración del iterador `z` es una tupla con los correspondientes elementos de los parámetros con las que se creo `z`, en este caso tres listas. La primera vez que iteramos obtenemos  una tupla formada por los tres _primeros_ elementos de las tres listas. La segunda vez con los tres _segundos_ y la tercera vez con tres _terceros_. \n",
+    "Si volviésemos a iterar `z` obtendríamos una excepción de la clase `StopIteration` porque ya no quedan mas objetos en el iterador. Después de iterar un iterador este queda vacío."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 164,
+   "metadata": {},
+   "outputs": [
+    {
+     "ename": "StopIteration",
+     "evalue": "",
+     "output_type": "error",
+     "traceback": [
+      "\u001b[0;31m---------------------------------------------------------------------------\u001b[0m",
+      "\u001b[0;31mStopIteration\u001b[0m                             Traceback (most recent call last)",
+      "\u001b[0;32m<ipython-input-164-cf9ac561a401>\u001b[0m in \u001b[0;36m<module>\u001b[0;34m\u001b[0m\n\u001b[0;32m----> 1\u001b[0;31m \u001b[0mnext\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mz\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m",
+      "\u001b[0;31mStopIteration\u001b[0m: "
+     ]
+    }
+   ],
+   "source": [
+    "next(z)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "* Habitualmente un iteardor se itera con un bucle `for`"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 40,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "('C', 'H', 'first')\n",
+      "('Python', 'O', 'second')\n",
+      "('JavaScript', 'L', 'third')\n"
+     ]
+    }
+   ],
+   "source": [
+    "l1 = ['C', 'Python', 'JavaScript'] \n",
+    "l2 = \"HOLA\"\n",
+    "l3 = ['first', 'second', 'third', 'four']\n",
+    "\n",
+    "for item in zip(l1, l2, l3):\n",
+    "    print(item)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "* A partir de un iterador podemos obtener una lista con la función `list()`"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 166,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "[('C', 17, 'first'), ('Python', 30, 'second'), ('JavaScript', 40, 'third')]\n"
+     ]
+    }
+   ],
+   "source": [
+    "z =  zip(l1, l2, l3)  # creamos el iterador\n",
+    "l = list (z)          # creamos una lista apartir del iterador\n",
+    "print(l)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "* En este ejemplo creamos el iterador con las secuencias devueltas por  `range(10)` y `range(100, 110)` , iteramos con el bucle for y utilizamos list comprenhesion"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 167,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "[0, 101, 204, 309, 416, 525, 636, 749, 864, 981]"
+      ]
+     },
+     "execution_count": 167,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "l = [x*y for x, y in zip(range(10), range(100, 110))]\n",
+    "l"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "**Nunca** deberías utilizar el siguiente código (piensa por qué!!!)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 168,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "[0, 101, 204, 309, 416, 525, 636, 749, 864, 981]"
+      ]
+     },
+     "execution_count": 168,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "# No utilizar\n",
+    "l = [x*y for x,y  in list(zip(range(10), range(100, 110)))]\n",
+    "l"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Enumerate\n",
+    "\n",
+    "* Recibe un objeto ordenable e iterable y devuelve una enumeración cuyos elementos son pares-objeto .  "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 19,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "<class 'enumerate'>\n"
+     ]
+    }
+   ],
+   "source": [
+    "grocery = ['bread', 'milk', 'butter']\n",
+    "\n",
+    "# Creo un objeto de la clase enumarte a partir de la lista\n",
+    "enumerateGrocery = enumerate (grocery)\n",
+    "\n",
+    "print(type(enumerateGrocery))"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 170,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "[(0, 'bread'), (1, 'milk'), (2, 'butter')]\n"
+     ]
+    }
+   ],
+   "source": [
+    "# converting enumerate to list\n",
+    "print(list(enumerateGrocery))"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 171,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "[(10, 'bread'), (11, 'milk'), (12, 'butter')]\n"
+     ]
+    }
+   ],
+   "source": [
+    "# changing the default counter\n",
+    "enumerateGrocery = enumerate(grocery, 10) #con dos parametros\n",
+    "\n",
+    "print(list(enumerateGrocery))"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 172,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "[(0, 'bread'), (1, 'milk'), (2, 'butter')]\n"
+     ]
+    }
+   ],
+   "source": [
+    "# Looping Over an Enumerate object\n",
+    "lc = [item for item in enumerate(grocery)]\n",
+    "print (lc)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Notación lambda para funciones\n",
+    "\n",
+    "Cuando las funciones son de una sola linea, a menudo se definen por medio de la la notación `lambda`. En el siguiente ejemplo ambas definiciones de la función `square()`son equivalentes.  "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 24,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "4"
+      ]
+     },
+     "execution_count": 24,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "def square(x):\n",
+    "    return x**2\n",
+    "\n",
+    "square = lambda x: x**2\n",
+    "\n",
+    "square(2)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Tuplas\n",
+    "\n",
+    "Las tuplas son muy similares a las listas. La diferencia es que las tuplas son objetos **no mutables**."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 173,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "([1, 2, 3], 4, 'hello world')"
+      ]
+     },
+     "execution_count": 173,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "t =  ([1,2,3], 4, \"hello world\")\n",
+    "t"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "* Podemos crear una tupla vacía, con un elemento, ..."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 8,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "(2,)"
+      ]
+     },
+     "execution_count": 8,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "t = () # t es una tupla vacía\n",
+    "t2 = tuple() # t2 también es una tupla vacía\n",
+    "t3 = (\"hola\", 2) # tupla con dos elementos\n",
+    "\n",
+    "\n",
+    "'''Para crear una tupla con uníco elemento, la coma es necesaria \n",
+    "sino t4=(3) sería un enlace a un entero ''' \n",
+    "t4 = (2,)   # t4 es una tupla con un elemento.  \n",
+    "t4"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "**Ejemplo** Suponga la tupla `t = ([1,2,3], 4, \"hello world\")` ¿Sería posible modificar el primer elemento de la tupla? No, una tupla es un objeto no mutable. Si lo intentamos se lanzará una excepción `TypeError: 'tuple' object does not support item assignment'`.  Lo que sí podemos es modificar el contenido de la lista, incluso extraer todos sus elementos. "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 17,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "([5, 2, 3], 4, 'hello world')\n",
+      "([5, 2], 4, 'hello world')\n",
+      "([], 4, 'hello world')\n"
+     ]
+    }
+   ],
+   "source": [
+    "t =  ([1,2,3], 4, \"hello world\")\n",
+    "\n",
+    "t[0][0] = 5 # modifico un elemento de la lista\n",
+    "print (t)\n",
+    "t[0].pop()  # elimino un elemento de la lista\n",
+    "print(t)\n",
+    "t[0].clear() #elimino todos los elementos de la lista\n",
+    "print(t)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Diccionarios"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "* Crear y usar un diccionario es muy parecido a trabajar con una lista, excepto que ahora debe definir un **par de clave y valor**, `key:value`. Los elementos del diccionario son accedidos por claves **no** por índice (es decir, **los elementos de un diccionario no son indexables**)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 174,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "{'nombre': 'Eduardo', 'apellido': 'Santos', 'edad': 25}"
+      ]
+     },
+     "execution_count": 174,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "empleado = {'nombre' : 'Eduardo', 'apellido' : 'Santos', 'edad' : 25}\n",
+    "empleado"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "* La gran ventaja de esta estructura de datos es que los diccionarios pueden proporcionar rápidamente acceso a elementos de datos específicos utilizando la clave. \n",
+    "Los diccionarios son la implementación Python de las tablas Hash. \n",
+    "\n",
+    "* Hay límites para los tipos de claves que se pueden utilizar. Las reglas especiales para crear una clave son:\n",
+    " * La clave debe ser única. Cuando se ingresa una clave duplicada, la información que se encuentra en la segunda entrada reemplaza a la de la primera.\n",
+    "  * La clave puede ser cualquier objeto inmutable. Esta regla implica que se pueden usar cadenas, números o tuplas para la clave. Sin embargo, no puede usar una lista para una clave."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 9,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "{1: 'Primer registro', 2: 'Tercer registro'}\n",
+      "Primer registro\n",
+      "2\n",
+      "Primer registro y Segundo registro\n"
+     ]
+    }
+   ],
+   "source": [
+    "# claves duplicadas\n",
+    "registro = { 1:\"Primer registro\", 2:\"Segundo registro\", 2:\"Tercer registro\"}\n",
+    "print (registro)\n",
+    "\n",
+    "# Diferentes tipos de claves\n",
+    "registro = { 1:\"Primer registro\", \"Segundo registro\":2, (1,2):\"Primer registro y\" + \" Segundo registro\" }\n",
+    "print(registro[1])\n",
+    "print(registro[\"Segundo registro\"])\n",
+    "print(registro[(1,2)])"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "* Se pueden añadir elementos al diccionario mediante el método `update`o directamente"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 175,
+   "metadata": {
+    "scrolled": false
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "{'nombre': 'Eduardo', 'apellido': 'Santos', 'edad': 25, 'estado_civil': 'soltero'}\n",
+      "{'nombre': 'Eduardo', 'apellido': 'Santos', 'edad': 25, 'estado_civil': 'soltero', 'profesion': 'soldador'}\n"
+     ]
+    }
+   ],
+   "source": [
+    "empleado.update ( {'estado_civil': 'soltero'})    # añade elemento con update\n",
+    "print (empleado)\n",
+    "\n",
+    "empleado['profesion'] = 'soldador'                # añade elemento directamente\n",
+    "print (empleado)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "* Se puede crear un dccionario vacío"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 46,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "{}"
+      ]
+     },
+     "execution_count": 46,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "d1 = {}  # diccionario vacío\n",
+    "d2 = dict()  #diccionario vacío\n",
+    "d2"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "* El constructor `dic`devolverá un dict cuando reciba un iterable cuyos elementos sean pares llave-valor"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 47,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "{'cofee': 1.0, 'sugar': 0.75}"
+      ]
+     },
+     "execution_count": 47,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "t = ( ('cofee', 1.), ('sugar', 0.75) ) #tupla con pares de elementos\n",
+    "price = dict (t)\n",
+    "price"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "* Podemos preguntar si una clave se encuentra en un diccionario"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 213,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "False\n"
+     ]
+    }
+   ],
+   "source": [
+    "print ('salt' in price) "
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "* Los diccionarios son objetos iterables"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 179,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "nombre\n",
+      "apellido\n",
+      "edad\n",
+      "estado_civil\n",
+      "profesion\n"
+     ]
+    }
+   ],
+   "source": [
+    "for k in empleado:\n",
+    "    print (k)\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "* Los diccionarios **no** son objetos indexables. Cuando se intenta acceder a los elementos de objeto_2 se lanza excepción. Verifica atentamente las diferencias entre los programas "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 12,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "lapiz\n",
+      "papel\n",
+      "tijera\n"
+     ]
+    },
+    {
+     "ename": "KeyError",
+     "evalue": "1",
+     "output_type": "error",
+     "traceback": [
+      "\u001b[0;31m---------------------------------------------------------------------------\u001b[0m",
+      "\u001b[0;31mKeyError\u001b[0m                                  Traceback (most recent call last)",
+      "\u001b[0;32m<ipython-input-12-aa32bc9ff400>\u001b[0m in \u001b[0;36m<module>\u001b[0;34m\u001b[0m\n\u001b[1;32m      5\u001b[0m \u001b[0mobjeto_2\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0;34m{\u001b[0m\u001b[0;34m'uno'\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m'lapiz'\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0;34m'dos'\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m'papel'\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0;34m'tres'\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m'tijera'\u001b[0m\u001b[0;34m}\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m      6\u001b[0m \u001b[0;32mfor\u001b[0m \u001b[0mi\u001b[0m \u001b[0;32min\u001b[0m \u001b[0mrange\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;36m1\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0;36m4\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m----> 7\u001b[0;31m     \u001b[0mprint\u001b[0m\u001b[0;34m(\u001b[0m \u001b[0mobjeto_2\u001b[0m\u001b[0;34m[\u001b[0m\u001b[0mi\u001b[0m\u001b[0;34m]\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m",
+      "\u001b[0;31mKeyError\u001b[0m: 1"
+     ]
+    }
+   ],
+   "source": [
+    "# codigo correcto\n",
+    "objeto_1 = {1:'lapiz', 2:'papel', 3:'tijera'}\n",
+    "for i in range(1, 4):\n",
+    "    print( objeto_1[i])\n",
+    "\n",
+    "# código incorrecto\n",
+    "objeto_2 = {'uno':'lapiz', 'dos':'papel', 'tres':'tijera'}\n",
+    "for i in range(1, 4):\n",
+    "    print( objeto_2[i])"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "* **Error habitual** al crear un diccionario"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 52,
+   "metadata": {},
+   "outputs": [
+    {
+     "ename": "NameError",
+     "evalue": "name 'nombre' is not defined",
+     "output_type": "error",
+     "traceback": [
+      "\u001b[0;31m---------------------------------------------------------------------------\u001b[0m",
+      "\u001b[0;31mNameError\u001b[0m                                 Traceback (most recent call last)",
+      "\u001b[0;32m<ipython-input-52-7741412df968>\u001b[0m in \u001b[0;36m<module>\u001b[0;34m\u001b[0m\n\u001b[0;32m----> 1\u001b[0;31m \u001b[0md\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0;34m{\u001b[0m \u001b[0mnombre\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m'Eduardo'\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mapellido\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m'Serrano'\u001b[0m\u001b[0;34m}\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m",
+      "\u001b[0;31mNameError\u001b[0m: name 'nombre' is not defined"
+     ]
+    }
+   ],
+   "source": [
+    "d = { nombre:'Eduardo', apellido:'Serrano'}"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Algunos métodos"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 181,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "dict_keys(['nombre', 'apellido', 'edad', 'estado_civil', 'profesion'])"
+      ]
+     },
+     "execution_count": 181,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "empleado.keys() #devuelve un objeto que muestra una lista no ordenada con las claves"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 182,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "dict_values(['Eduardo', 'Santos', 25, 'soltero', 'soldador'])"
+      ]
+     },
+     "execution_count": 182,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "empleado.values() # devuelve un objeto que muestra una lista con los valores del diccionario"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 183,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "dict_items([('nombre', 'Eduardo'), ('apellido', 'Santos'), ('edad', 25), ('estado_civil', 'soltero'), ('profesion', 'soldador')])"
+      ]
+     },
+     "execution_count": 183,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "empleado.items()  #devuelve un objeto que muestra una lista de tuplas con clave-valor"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "* **Dictionary comprenhesion**"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "**Ejercicio**: \n",
+    "Suponga que tiene un diccionario con los precios en dólares de diferentes productos. Se desea crear un nuevo diccionario con los precios en euros"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Podríamos haber resuelto el problema creando un nuevo diccionario y modificando sus valores con un bucle `for`"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 8,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "{'milk': 1.0098, 'coffee': 2.475, 'bread': 2.475}\n"
+     ]
+    }
+   ],
+   "source": [
+    "#item price in dollars\n",
+    "price_dollar = {'milk': 1.02, 'coffee': 2.5, 'bread': 2.5}\n",
+    "conversion = 0.99  # 1$ equivalent to 0.99€\n",
+    "\n",
+    "#  Without using dictionary comprenhesion (non phytonic)\n",
+    "price_euro = dict (price_dollar)\n",
+    "for item, value in price_euro.items():\n",
+    "    price_euro[item] = value*conversion\n",
+    "\n",
+    "print(price_euro)    "
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Mas compacto utilizando *dictionary comprenhesion*"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 10,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "{'milk': 1.0098, 'coffee': 2.475, 'bread': 2.475}\n"
+     ]
+    }
+   ],
+   "source": [
+    "# Using dictionary comprenhesión\n",
+    "price_euro = { item : value*conversion for item, value in price_dollar.items() }\n",
+    "print (price_euro)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "**Ejercicio**\n",
+    "Convierte la lista `l = [\"coffe\",1.01, \"milk\", 2,3 ]` en un diccionario donde las claves sean los índices pares y las claves las impares  "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "{'coffe': 1.01, 'milk': 2}\n",
+      "{'coffe': 1.01, 'milk': 2}\n",
+      "{'coffe': 1.01, 'milk': 2}\n"
+     ]
+    }
+   ],
+   "source": [
+    "l = [\"coffe\",1.01, \"milk\", 2,3 ]\n",
+    "\n",
+    "#method 1, dictionary comprenhesion with iterable\n",
+    "d = { key:values for key, values in zip( l[::2], l[1::2])}\n",
+    "print(d)\n",
+    "\n",
+    "#method 1b, A little worst\n",
+    "d = { l[i]:l[i+1] for i in range(0, len(l)-1, 2) }\n",
+    "print(d)\n",
+    "\n",
+    "# method 2, using the dictionary constructor and a iterable\n",
+    "d = dict( zip( l[::2], l[1::2]) )\n",
+    "print (d)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Conjuntos"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Funciones\n",
+    "\n",
+    "* En Python una función se define utilizando la palabra clave `def`"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 185,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Hello world\n"
+     ]
+    },
+    {
+     "data": {
+      "text/plain": [
+       "9"
+      ]
+     },
+     "execution_count": 185,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "def foo():\n",
+    "    print(\"Hello world\")\n",
+    "\n",
+    "def bar(x):\n",
+    "    return x+4\n",
+    "\n",
+    "foo()\n",
+    "bar(5)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "* **Importante** En Python las funciones también son objetos. No confundir el *objeto* función con el *enlace* a una función tal y como se muestra en el  [siguiente ejemplo](https://pythontutor.com/visualize.html#code=def%20add%28%29%3A%0A%20%20%20%20c%20%3D%2010%0A%20%20%20%20print%28f'%20Esto%20esta%20c%20dentro%20de%20la%20funcion%20add%3A%20%7Bc%7D'%29%0A%20%20%20%20%0Adef%20add_2%28%29%3A%0A%20%20%20%20c%20%3D%2020%0A%20%20%20%20print%28f'%20Esto%20esta%20c%20dentro%20de%20add_2%3A%20%7Bc%7D'%29%0A%0Ac%20%3D%201%0Aadd%28%29%0Af%20%3D%20add%0Af%28%29%0A%0Aadd%20%3D%20add_2%0Aadd%28%29&cumulative=false&heapPrimitives=nevernest&mode=edit&origin=opt-frontend.js&py=3&rawInputLstJSON=%5B%5D&textReferences=false)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Argumentos de funciones\n",
+    "\n",
+    "* Al pasar valores a una función, Python usa las llamadas por **referencia a los objetos**.\n",
+    "    ¿Qué ocurre si le pasamos un objeto mutable a una función?:\n",
+    "    * Al pasarle una referencia al objeto, el objeto podría ser modificado dentro de la función con efectos fuera del ámbito de la función.\n",
+    "    * Sin embargo, si el enlace al objeto es re-enlazado dentro de la función, el ámbito externo no sabrá nada y no se realizarán cambios fuera del ámbito de la función.\n",
+    "    \n",
+    "Tenido en cuenta lo anterior, analiza detenidamente en el siguiente [código](https://pythontutor.com/render.html#code=%0Adef%20funcion_0%20%28ll,%20string%29%3A%0A%20%20%20%20ll%5B0%5D%20%3D%20string%0A%20%20%20%20return%20ll%0A%0Adef%20funcion_1%20%28ll,%20string%29%3A%0A%20%20%20%20ll%5B1%5D%20%3D%20string%0A%20%20%20%20return%20ll%0A%0A%0Adef%20funcion_2%20%28ll,%20string%29%3A%0A%20%20%20%20ll%20%3D%20%5B1,%202,%203%5D%0A%20%20%20%20ll%5B0%5D%20%3D%20string%0A%20%20%20%20return%20ll%0A%0A%0As%20%3D%20%22Hello%20world%22%0Al%20%3D%20%5B1,%202,%203%5D%0A%0Al_0%20%3D%20funcion_0%20%28l,%20s%29%0Al_1%20%3D%20funcion_1%20%28l,%20s%29%0Al_2%20%3D%20funcion_2%20%28l,%20%22bye%20bye%20world%22%29&cumulative=false&curInstr=21&heapPrimitives=nevernest&mode=display&origin=opt-frontend.js&py=3&rawInputLstJSON=%5B%5D&textReferences=false) en pythontutor, y observa los valores de la lista `l` tras las sucesivas llamadas"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "* Cuando se invoca a una función los valores que se pasan a la función se enlazan a los parámetros bien de forma posicional o mediante nombres formales de parámetros"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 54,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      " El estudiante Eduardo Lopez esta matriculado en AlgED de 2\n",
+      " El estudiante Eduardo Lopez esta matriculado en AlgED de 2\n"
+     ]
+    }
+   ],
+   "source": [
+    "def fun (nombre, apellido, asignatura, curso):\n",
+    "    print (f' El estudiante {nombre} {apellido} esta matriculado en {asignatura} de {curso}' )\n",
+    "    \n",
+    "\n",
+    "# enlace posicional    \n",
+    "fun ('Eduardo', 'Lopez', 'AlgED', 2)  # nombre enlaza a 'Eduardo', apellido enlaza a 'Lopez', ....\n",
+    "\n",
+    "# enlace utilizando los nombres formales de parametro\n",
+    "fun (apellido='Lopez', nombre='Eduardo', curso=2, asignatura='AlgED')"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "* En Python se pueden definir los argumentos de la función por clave (o con valores por defecto). \n",
+    "    * Los argumentos posicionales deben preceder a los argumentos con clave. \n",
+    "    * Si al invocar a la función se omite un argumento por clave, la función asignará al parámetro el valor por defecto.\n",
+    "    * Los valores por defecto se definen mediante `arg=value`"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 56,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      " El estudiante Eduardo Lopez esta matriculado en AlgED de 2\n",
+      " El estudiante Mengano Serrano esta matriculado en AlgEd de 2\n",
+      " El estudiante Zutano Mejias esta matriculado en Neuro de 4\n"
+     ]
+    }
+   ],
+   "source": [
+    "# funcion únicamente con argumentos posicionales\n",
+    "def fun_pos (nombre, apellido, asignatura, curso):\n",
+    "    print (f' El estudiante {nombre} {apellido} esta matriculado en {asignatura} de {curso}' )\n",
+    "\n",
+    "# funcion con argumentos posicionales y argumentos por clave\n",
+    "def fun_clave (nombre, apellido, asignatura='AlgEd', curso=2):\n",
+    "    print (f' El estudiante {nombre} {apellido} esta matriculado en {asignatura} de {curso}' )\n",
+    "\n",
+    "# Ejemplos de invocación de funciones\n",
+    "fun_pos ('Eduardo', 'Lopez', 'AlgED', 2) \n",
+    "fun_clave ('Mengano', 'Serrano')\n",
+    "fun_clave ('Zutano', 'Mejias', curso=4, asignatura='Neuro')"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "* Cuidado con los argumentos que tienen un valor por defecto cuando este sea un objeto mutable. Cuando se crea el objeto función en el *frame de los objetos*, se inicializan los argumentos por defecto. Si estos se modificasen cuando se invocase a la función, las modificaciones persisten entre llamadas sucesivas. Ejecuta el siguiente código en [pythontutor](https://pythontutor.com/render.html#code=%0Adef%20fun_peligrosa%20%28ele,%20l%20%3D%20%5B%5D%29%3A%0A%20%20%20%20l.append%20%28ele%29%0A%20%20%20%20print%28l%29%0A%20%20%20%20%0Adef%20fun_correcta%20%28ele,%20l%20%3D%20None%29%3A%0A%20%20%20%20if%20l%20%3D%3D%20None%3A%0A%20%20%20%20%20%20%20%20l%20%3D%20%5B%5D%0A%20%20%20%20l.append%20%28ele%29%0A%20%20%20%20print%20%28l%29%0A%0Afun_peligrosa%20%285%29%0Afun_peligrosa%20%2810%29%0A%0Afun_peligrosa%20%283,%20l%20%3D%20%5B1,1%5D%29%0Afun_peligrosa%20%285%29%0A%0Afun_correcta%20%285%29%0Afun_correcta%20%2810%29&cumulative=false&curInstr=0&heapPrimitives=nevernest&mode=display&origin=opt-frontend.js&py=3&rawInputLstJSON=%5B%5D&textReferences=false)\n",
+    "\n",
+    " * En la función `fun_peligrosa()` El argumento l tiene como valor por defecto una lista vacía. En la llamada a `fun_peligrosa (5)` como no se le ha pasado una lista el elemento 5 se añade a la lista *por defecto* l. Si ahora volvemos a invocar a fun_peligrosa **sin** el argumento por defecto, e.g.,  `fun_peligrosa(10)` el valor 10 se añade a la lista *por defecto* cuyo primer elemento era el 5. \n",
+    " * Compara la implementación de fun_peligrosa con la de fun_correcta.\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "\n",
+    "def fun_peligrosa (ele, l = []):\n",
+    "    l.append (ele)\n",
+    "    print(l)\n",
+    "    \n",
+    "def fun_correcta (ele, l = None):\n",
+    "    if l == None:\n",
+    "        l = []\n",
+    "    l.append (ele)\n",
+    "    print (l)\n",
+    "\n",
+    "fun_peligrosa (5)\n",
+    "fun_peligrosa (10)\n",
+    "\n",
+    "fun_peligrosa (3, l = [1,1])\n",
+    "fun_peligrosa (5)\n",
+    "\n",
+    "fun_correcta (5)\n",
+    "fun_correcta (10)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "* Cuando se llama a una función los argumentos posicionales se empaquetan en una `tupla` (args) mientras que los argumentos por defecto se empaquetan en un `dict` (kwargs) con los nombres de las variables como claves y los valores por defecto como valores del diccionario. Por ejemplo, en la función `fun_clave()`, `args = (nombre, apellido)` y `kwargs = {'asignatura':AlgED', 'curso':2}`"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Funciones como argumento de funciones"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 198,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "[0, 1, 4, 9, 16, 25, 36, 49, 64, 81, 100, 121, 144, 169, 196, 225, 256, 289, 324, 361]\n"
+     ]
+    }
+   ],
+   "source": [
+    "def square (x):\n",
+    "    return x**2\n",
+    "\n",
+    "def list_values (x, f):\n",
+    "    return [f(i) for i in range(x)]\n",
+    "\n",
+    "\n",
+    "l = list_values (20, square)\n",
+    "print (l)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Retorno de funciones\n",
+    "\n",
+    "* En Python las funciones o bien no devuelven nada, `None`, o bien devuelven **una única** tupla de valores. En el siguiente ejemplo el objeto devuelto por la función `fun()` es una tupla con tres valores (**no** devuelve tres valores)."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 188,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "(1, 2, 3)\n"
+     ]
+    },
+    {
+     "data": {
+      "text/plain": [
+       "tuple"
+      ]
+     },
+     "execution_count": 188,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "def fun():\n",
+    "    x, y, z = 1, 2, 3\n",
+    "    return x, y, z\n",
+    "\n",
+    "l = fun()\n",
+    "print(l)\n",
+    "type(l)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Variables globales y funciones [ref](https://www.programiz.com/python-programming/global-keyword)\n",
+    "\n",
+    "* In Python, global keyword allows you to modify the variable outside of the current scope. It is used to create a global variable and make changes to the variable in a local context.\n",
+    "\n",
+    "* Rules of global Keyword\n",
+    "   * When we define a variable outside of a function, it is global by default. You don't have to use global keyword.\n",
+    "   * When we create a variable inside a function, it is local by default.\n",
+    "   * We use global keyword to read and write a global variable inside a function.\n",
+    "   * Use of global keyword outside a function has no effect."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Ejemplo de variable global [ejemplo_1](https://pythontutor.com/render.html#code=c%20%3D%201%20%23%20global%20variable%0A%0Adef%20add%28%29%3A%0A%20%20%20%20print%28f'%20Esto%20esta%20c%20dentro%20de%20la%20funcion%20add%3A%20%7Bc%7D'%29%0A%20%20%20%20%0Adef%20add_2%28%29%3A%0A%20%20%20%20print%28f'%20Esto%20esta%20c%20dentro%20de%20add_2%3A%20%7Bc%7D'%29%0A%0Aadd%28%29%0Af%20%3D%20add%0Af%28%29%0A%0Aadd%20%3D%20add_2%0Aadd%28%29&cumulative=false&curInstr=17&heapPrimitives=nevernest&mode=display&origin=opt-frontend.js&py=3&rawInputLstJSON=%5B%5D&textReferences=false)\n",
+    "\n",
+    "Sin embargo la siguiente función es incorrecta. Cuando se ejecuta se lanza una excepción de la clase `UnboundLocalError` Es importante que entiendas el mensaje de error!! \n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 189,
+   "metadata": {},
+   "outputs": [
+    {
+     "ename": "UnboundLocalError",
+     "evalue": "local variable 'c' referenced before assignment",
+     "output_type": "error",
+     "traceback": [
+      "\u001b[0;31m---------------------------------------------------------------------------\u001b[0m",
+      "\u001b[0;31mUnboundLocalError\u001b[0m                         Traceback (most recent call last)",
+      "\u001b[0;32m<ipython-input-189-dd643a2f9aa8>\u001b[0m in \u001b[0;36m<module>\u001b[0;34m\u001b[0m\n\u001b[1;32m      5\u001b[0m     \u001b[0mprint\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mc\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m      6\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m----> 7\u001b[0;31m \u001b[0madd\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m",
+      "\u001b[0;32m<ipython-input-189-dd643a2f9aa8>\u001b[0m in \u001b[0;36madd\u001b[0;34m()\u001b[0m\n\u001b[1;32m      2\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m      3\u001b[0m \u001b[0;32mdef\u001b[0m \u001b[0madd\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m----> 4\u001b[0;31m     \u001b[0mc\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0mc\u001b[0m \u001b[0;34m+\u001b[0m \u001b[0;36m2\u001b[0m \u001b[0;31m# try to increment c by 2\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m      5\u001b[0m     \u001b[0mprint\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mc\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m      6\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n",
+      "\u001b[0;31mUnboundLocalError\u001b[0m: local variable 'c' referenced before assignment"
+     ]
+    }
+   ],
+   "source": [
+    "c = 1 # global variable\n",
+    "    \n",
+    "def add():\n",
+    "    c = c + 2 # try to increment c by 2\n",
+    "    print(c)\n",
+    "\n",
+    "add()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "En el código anterior se debería haber definido c como una variable global"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 190,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Inside add(): 3\n",
+      "In main: 3\n"
+     ]
+    }
+   ],
+   "source": [
+    "c = 1 # global variable\n",
+    "\n",
+    "def add():\n",
+    "    global c\n",
+    "    c = c + 2 # increment by 2\n",
+    "    print(\"Inside add():\", c)\n",
+    "\n",
+    "add()\n",
+    "print(f'In main: {c}')"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "* Variable global en una función anidada [example](https://pythontutor.com/render.html#code=def%20foo%28%29%3A%0A%20%20%20%20x%20%3D%2020%0A%0A%20%20%20%20def%20bar%28%29%3A%0A%20%20%20%20%20%20%20%20global%20x%0A%20%20%20%20%20%20%20%20x%20%3D%20x%20%2B%203%0A%20%20%20%20%0A%20%20%20%20print%28f%22Before%20calling%20bar%3A%20%7Bx%7D%22%29%0A%20%20%20%20print%28%22Calling%20bar%20now%22%29%0A%20%20%20%20bar%28%29%0A%20%20%20%20print%28f%22After%20calling%20bar%3A%20%7Bx%7D%22%29%0A%0A%0Ax%20%3D%2010%0Aprint%28f%22x%20in%20main%3A%20%7Bx%7D%22%29%0Afoo%28%29%0Aprint%28f%22x%20in%20main%3A%20%7Bx%7D%22%29&cumulative=false&curInstr=16&heapPrimitives=nevernest&mode=display&origin=opt-frontend.js&py=3&rawInputLstJSON=%5B%5D&textReferences=false)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Argumentos *args* y *kwargs*"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### En la invocación de una función"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "* En el siguiente ejemplo la función `fun()` tiene tres argumentos.  Podemos invocarla pasándole la lista `args`en la que, previamente, hemos desempaquetado sus elementos con `*`  "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 191,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "2"
+      ]
+     },
+     "execution_count": 191,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "def fun(x, y, oper):\n",
+    "    ''' Funcion de tres argumentos'''\n",
+    "    if oper == '+':\n",
+    "        return x+y\n",
+    "    else:\n",
+    "        return x*y\n",
+    "        \n",
+    "args = (1, 2, '*')\n",
+    "fun (*args)  # equivalente a ejecutar: fun (args[0], args[1], args[2])"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "* La siguiente función tiene dos argumentos posicionales (`x`e `y`) y uno por defecto (`tipo`). Podemos invocara a la función con una tupla que desempaquetamos para asignar valor a los argumentos posicionales y un diccionario que, a su vez, desempaquetamos para asignar los argumentos con clave. "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 57,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "8"
+      ]
+     },
+     "execution_count": 57,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "def fun (x, y, tipo = 'triangulo'):\n",
+    "    if tipo == 'triangulo':\n",
+    "        return x*y/2\n",
+    "    else:\n",
+    "        return x*y\n",
+    "\n",
+    "args = (4,2)\n",
+    "kwargs = { 'tipo' : \"rectangulo\"}\n",
+    "fun(*args, **kwargs) # equivalente a ejecutar: fun (args[0], args[1], tipo=\"rectangulo\")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "* La función anterior también podemos invocarla usando únicamente un diccionario que desempaquetamos"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 193,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "8"
+      ]
+     },
+     "execution_count": 193,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "kwargs = {'y':2, 'x':4,  'tipo' : \"rectangulo\"}\n",
+    "fun(**kwargs) # equivalente a ejecutar: fun (args[0], args[1], \"rectangulo\")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "o una única tupla"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 194,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "4.0"
+      ]
+     },
+     "execution_count": 194,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "kwargs = (4, 2, \"rectangulo\")\n",
+    "fun (*args)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### En la definición de la función"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "* Podemos definir una función con un número arbitrario de parámetros posicionales mediante el uso de `args`. En el ejemplo, la variable args se enlaza a una tupla tal y como puedes observar en  [pythontutor](https://pythontutor.com/render.html#code=def%20add_arg_var%20%28*args%29%3A%0A%20%20%20%20value%20%3D%200%0A%20%20%20%20for%20i%20in%20args%3A%0A%20%20%20%20%20%20%20%20value%20%2B%3D%20i%0A%20%20%20%20print%20%28value%29%0A%20%20%20%20%0A%0Aadd_arg_var%20%283,4,5%29%0Aadd_arg_var%20%283,4,5,6%29&cumulative=false&curInstr=15&heapPrimitives=nevernest&mode=display&origin=opt-frontend.js&py=3&rawInputLstJSON=%5B%5D&textReferences=false)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 58,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "12\n",
+      "18\n"
+     ]
+    }
+   ],
+   "source": [
+    "def add_arg_var (*args):\n",
+    "    value = 0\n",
+    "    for i in args:  #se itera la tupla args\n",
+    "        value += i\n",
+    "    print (value)\n",
+    "    \n",
+    "\n",
+    "add_arg_var (3,4,5)\n",
+    "add_arg_var (3,4,5,6)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "* Igualmente con `**kwargs` podemos definir una función con un número arbitrario de parámetros con clave. En el siguiente ejemplo cuando se invoca a la función se enlaza `kwargs` con el dict {'base'=2, 'altura'=4} tal y como puedes comprobar en [pythontutor](https://pythontutor.com/render.html#code=def%20fun%28**kwargs%29%3A%0A%20%20%20%20for%20key,%20values%20in%20kwargs.items%28%29%3A%0A%20%20%20%20%20%20%20%20print%20%28key,%20values%29%0A%0Afun%20%28base%3D2,%20altura%3D4%29&cumulative=false&curInstr=2&heapPrimitives=nevernest&mode=display&origin=opt-frontend.js&py=3&rawInputLstJSON=%5B%5D&textReferences=false) "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 196,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "base 2\n",
+      "altura 4\n"
+     ]
+    }
+   ],
+   "source": [
+    "def fun(**kwargs):\n",
+    "    for key, values in kwargs.items():\n",
+    "        print (key, values)\n",
+    "\n",
+    "fun (base=2, altura=4)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "**Ejemplo** En este ejemplo se utiliza kwargs tanto en la definición de la función `operacion`como en la llamada. En el ejemplo la función `operacion` necesita pasar diferentes argumentos según se invoque a la función `potencia`o a `logaritmo`[pythontutor](https://pythontutor.com/render.html#code=import%20math%0A%0Adef%20potencia%20%28x,%20exponente%3D2%29%3A%0A%20%20%20%20return%20x**exponente%0A%20%20%20%20%0Adef%20logaritmo%20%28x,%20base%3D10%29%3A%0A%20%20%20%20return%20math.log%28x,%20base%29%0A%0Adef%20operacion%20%28x,%20f,%20**kwargs%29%3A%20%20%23%20en%20la%20definici%C3%B3n%20de%20la%20funci%C3%B3n%0A%20%20%20%20return%20f%28x,%20**kwargs%29%20%20%20%20%20%20%20%20%23%20en%20%0A%0A%20%20%20%20%0A%0Aprint%20%28%20operacion%20%2810,%20potencia,%20exponente%20%3D%203%29%20%29%0Aprint%20%28%20operacion%20%2810,%20logaritmo,%20base%20%3D%2010%29%20%29&cumulative=false&curInstr=12&heapPrimitives=nevernest&mode=display&origin=opt-frontend.js&py=3&rawInputLstJSON=%5B%5D&textReferences=false). "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "1000\n",
+      "1.0\n",
+      "100\n"
+     ]
+    }
+   ],
+   "source": [
+    "import math\n",
+    "\n",
+    "def potencia (x, exponente=2):\n",
+    "    return x**exponente\n",
+    "    \n",
+    "def logaritmo (x, base=10):\n",
+    "    return math.log(x, base)\n",
+    "\n",
+    "def square (x):\n",
+    "    return x**2\n",
+    "\n",
+    "def operacion (x, f, **kwargs):  # en la definición de la función\n",
+    "    ''' Version 1'''\n",
+    "    return f(x, **kwargs)        # en la invocacion tiene que pasarse los argumentos desempaquetados\n",
+    "\n",
+    "# Drive code\n",
+    "print ( operacion (x=10, f=potencia, exponente = 3) )\n",
+    "print ( operacion (x=10, f=logaritmo, base = 10) )\n",
+    "print ( operacion (x=10, f=square) )\n",
+    "\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "* La función `operacion()` podríamos programarla de otra forma. En este caso `operacion()` tiene un argumento con clave `param` cuyo valor por defecto es una lista vacía. Cuando `operacion()` invoca a `f` desempaqueta la tupla `param`   "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 16,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "1000\n",
+      "3.3219280948873626\n",
+      "100\n"
+     ]
+    }
+   ],
+   "source": [
+    "def operacion (x, f, param=tuple()):\n",
+    "    ''' Version 2 de la función operacion '''\n",
+    "    return f(x, *param)\n",
+    "\n",
+    "\n",
+    "# Drive code\n",
+    "print ( operacion (x=10, f=potencia, param=(3,) ) )\n",
+    "print ( operacion (x=10, f=logaritmo, param=(2,) ) )\n",
+    "print ( operacion (x=10, f=square) )\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Anotación de funciones\n",
+    "\n",
+    "Anotar tus funciones mejorará mucho la legibilidad de tu código. En la siguiente página se muestran varios ejemplos\n",
+    "[anotación funciones](https://towardsdatascience.com/12-beginner-concepts-about-type-hints-to-improve-your-python-code-90f1ba0ac49)\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Módulos\n",
+    "\n",
+    "* Son ficheros _*.py_ que contienen sentencias, definición de funciones, variables globales, etc\n",
+    "\n",
+    "* La sentencia `import` enlaza un módulo con el ámbito donde ocurre el import\n",
+    "\n",
+    "* Si el fichero *my_module.py* ha sido modificado después del `import`, tiene que ser recargado para actualizar los enlaces previos: `reload (mm)`. La función reload realiza una comprobación sintáctica\n",
+    "\n",
+    "* Se accede a las funciones (o variables) del módulo mediante notación de objetos (.): mm.funcname ( ... )\n",
+    "\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 59,
+   "metadata": {
+    "scrolled": true
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "-rw-rw-r-- 1 eduardo eduardo 61 sep 13 02:24 test.py\n",
+      "\n",
+      "\n",
+      "def fun (x):\n",
+      "\tprint (\"Hello \" + x + \" congratulations\")\n",
+      "\n",
+      "\n",
+      "\n"
+     ]
+    }
+   ],
+   "source": [
+    "%%bash  \n",
+    "\n",
+    "ls -lht test*\n",
+    "cat test.py"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Hello Eduardo\n"
+     ]
+    }
+   ],
+   "source": [
+    "import test            # importo el modulo test.py \n",
+    "\n",
+    "test.fun ('Eduardo')   # se invoca a la funcion fun() del modulo "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Hello Pepe congratulations\n"
+     ]
+    }
+   ],
+   "source": [
+    "import importlib\n",
+    "\n",
+    "importlib.reload (test)\n",
+    "\n",
+    "test.fun('Pepe')"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "* Algunos módulos útiles\n",
+    "\n",
+    "|Módulo |\tOperation\t|\n",
+    "|-------- | ------------| \n",
+    "| os, sys |  para tareas relacionadas con el sistema operativo |\n",
+    "| math | para operaciones matemáticas estándar|\n",
+    "| matplotlib | para dibujar gráficas (lo veremos más adelante) |\n",
+    "|numpy | para álgebra lineal (lo veremos más adelante) |\n",
+    "| scipy | para cálculo científico |\n",
+    "| pandas | para cálculo con tablas (lo veremos más adelante) |\n",
+    "| sklearn | para aprendizaje automático (lo veremos más adelante) |\n",
+    "|statsmodels | para estadística|"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Numpy\n",
+    "\n",
+    "### Arrays\n",
+    "\n",
+    "\n",
+    "* Supongamos que deseamos hacer ciertos cálculos algebraicos y necesitamos utilizar vectores y matrices. ¿Como podemos implementarlas en Python? \n",
+    "    * Podemos utilizar listas \n",
+    "    * Mucho mejor: con Arrays, objetos definidos en el módulo Numpy  "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Utilizando listas\n",
+    "v = [1,2,3] \n",
+    "m = [ [1,2,3], [4,5,6], [7,8,9]]"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "[1 2 3]\n",
+      "[[ 1  2  3]\n",
+      " [14  5  6]\n",
+      " [27  8  9]]\n"
+     ]
+    }
+   ],
+   "source": [
+    "import numpy as np\n",
+    "\n",
+    "a = np.array ([1,2,3])   #conversion de lista en array\n",
+    "b = np.array ( [[1,2,3], [14,5,6], [27,8,9]] )\n",
+    "\n",
+    "print(a)\n",
+    "print(b)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 7,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "(3, 3)"
+      ]
+     },
+     "execution_count": 7,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "np.shape (m) # Return the shape (dimension) of the numpy object. Equivalent to variable: m.shape"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "* Los arrays se pueden indexar y trocear"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "a[1,1]\n",
+    "a[0, ] # Primera fila\n",
+    "a[0, 1:3] "
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "* Dado un array se pueden modificar sus dimensiones"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "c = np.arange(6) # Equivalente a la funcion range() pero devuelve un array\n",
+    "c.reshape(3,2)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 25,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "array([[0, 1, 2],\n",
+       "       [3, 4, 5]])"
+      ]
+     },
+     "execution_count": 25,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "c.reshape(2, -1) # Con -1 la segunda dimensión se ajusta para que sea compatible"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "**Métodos de array**"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 17,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "1.0"
+      ]
+     },
+     "execution_count": 17,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "m = np.empty ((3,3))     # Return a new array of given shape without initializing entries (3,3)\n",
+    "m = np.zeros ((5, 5))    # una matriz cuadrada 5 x 5 llena de ceros\n",
+    "m = np.eye(5)            # matriz identidad de 5 x 5\n",
+    "\n",
+    "c = a + b                # suma elemento a elemento\n",
+    "c= a * b                 # multiplicación elemento a elemento\n",
+    "c = a.dot(b)             # multiplication de dos arrays\n",
+    "m = np.eye(5)            # matriz identidad de 5 x 5\n",
+    "a / 5.                   # división elemento a elemento\n",
+    "l = np.array(a)  #conversión de lista en array\n",
+    "a.T                      # traspuesta\n",
+    "np.linalg.det(m)    # determinante"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "**Algunas funciones**"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 18,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "[[6 9 2 4]\n",
+      " [2 2 6 8]\n",
+      " [0 6 0 3]\n",
+      " [2 0 8 9]]\n",
+      "[2.5  4.25 4.   6.  ]\n",
+      "[5.25 4.5  2.25 4.75]\n"
+     ]
+    },
+    {
+     "data": {
+      "text/plain": [
+       "4.1875"
+      ]
+     },
+     "execution_count": 18,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "a = np.random.randint (0, high=11, size= (4,4)) #Return random integers from low (inclusive) to high (exclusive).\n",
+    "print(a)\n",
+    "\n",
+    "print( a.mean(axis=0) )     # media de las columnas de a\n",
+    "print( a.mean(axis=1) )\n",
+    "a.mean()                    # media de todos los elementos del array"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "* En numpy todas sus funciones están paralelizadas"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "* Cuidado con la gestion de memoria y las subsecuencias en numpy. A diferencia de una lista donde al acceder a una sub-secuencia de una lista se \"crea una copia\" de la lista original, un sub-array de un array de numpy es una vista!! Esto tiene importantes consecuencias en como debemos gestionar la memoria cuando trabajamos con grandes cantidades de datos. [Echa un vistazo a esta referencia](https://pythonspeed.com/articles/numpy-memory-views/)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 10,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "l_o: ['hola', 'pepe', 3, 4, [999, 800, 700]], l_c:['pepe', 3, 4, [999, 800, 700]]\n",
+      "l_o: ['hola', 'pepe', 3, 4, 'cambio'], l_c:['pepe', 3, 4, [999, 800, 700]]\n",
+      "a_o: [[1 2 3]\n",
+      " [4 5 6]] \n",
+      "a_c: [1 2 3]\n",
+      "a_o: [[11 22 33]\n",
+      " [ 4  5  6]] \n",
+      "a_c: [11 22 33]\n"
+     ]
+    }
+   ],
+   "source": [
+    "# Cuidado con las sub-secuencias. Una subsecuencia crea una copia\n",
+    "\n",
+    "x = [900, 800, 700]\n",
+    "l_o = [\"hola\", \"pepe\", 3, 4, x]\n",
+    "\n",
+    "l_c = l_o[1:]\n",
+    "\n",
+    "x[0] = 999\n",
+    "print (f'l_o: {l_o}, l_c:{l_c}')\n",
+    "\n",
+    "l_o[-1] = \"cambio\"\n",
+    "print (f'l_o: {l_o}, l_c:{l_c}')\n",
+    "\n",
+    "# Y si fuesen numpy arrays ?\n",
+    "\n",
+    "a_o = np.array ([[1,2,3],[4,5,6]])\n",
+    "a_c = a_o[0, :]\n",
+    "\n",
+    "print(f'a_o: {a_o} \\na_c: {a_c}')\n",
+    "\n",
+    "#modifico el array \n",
+    "a_o[0,] =[11,22,33]\n",
+    "print(f'a_o: {a_o} \\na_c: {a_c}')\n"
+   ]
+  }
+ ],
+ "metadata": {
+  "hide_input": false,
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.7.4"
+  },
+  "latex_envs": {
+   "LaTeX_envs_menu_present": true,
+   "autoclose": false,
+   "autocomplete": true,
+   "bibliofile": "biblio.bib",
+   "cite_by": "apalike",
+   "current_citInitial": 1,
+   "eqLabelWithNumbers": true,
+   "eqNumInitial": 1,
+   "hotkeys": {
+    "equation": "Ctrl-E",
+    "itemize": "Ctrl-I"
+   },
+   "labels_anchors": false,
+   "latex_user_defs": false,
+   "report_style_numbering": false,
+   "user_envs_cfg": false
+  },
+  "nbTranslate": {
+   "displayLangs": [
+    "es",
+    "en"
+   ],
+   "hotkey": "alt-t",
+   "langInMainMenu": true,
+   "sourceLang": "en",
+   "targetLang": "es",
+   "useGoogleTranslate": true
+  },
+  "toc": {
+   "base_numbering": 1,
+   "nav_menu": {},
+   "number_sections": true,
+   "sideBar": true,
+   "skip_h1_title": false,
+   "title_cell": "Table of Contents",
+   "title_sidebar": "Contents",
+   "toc_cell": false,
+   "toc_position": {},
+   "toc_section_display": true,
+   "toc_window_display": false
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 2
+}
